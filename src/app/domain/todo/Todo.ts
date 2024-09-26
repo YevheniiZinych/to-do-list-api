@@ -18,8 +18,6 @@ const storeData: ITodo[] = [
   },
 ];
 
-console.log(storeData);
-
 @JsonController("/todo")
 export default class Todo {
   @Get()

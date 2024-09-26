@@ -1,4 +1,4 @@
-import Todo from "./todo/Person";
+import Todo from "./todo/Todo";
 
 type Controller = typeof Todo;
 
