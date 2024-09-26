@@ -6,6 +6,9 @@ import { useExpressServer } from "routing-controllers";
 import { IService } from "types/services";
 import { controllers } from "app/domain";
 import { middlewares } from "app/middlewares";
+require("dotenv").config();
+
+const { DB_URI } = process.env;
 
 // Оголошуємо клас Tcp, який реалізує інтерфейс IService
 export class Tcp implements IService {
@@ -44,9 +47,7 @@ export class Tcp implements IService {
     });
 
     try {
-      const db = await mongoose.connect(
-        "mongodb+srv://zinich911:ea1og6ZcMNBptsGT@to-do-list-api.aj8b3.mongodb.net/"
-      );
+      const db = await mongoose.connect(DB_URI);
       console.log(
         `mongodb is connected, dbName: ${db.connection.name}, onPort: ${db.connection.port}, onHost: ${db.connection.host}`
       );
