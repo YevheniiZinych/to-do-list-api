@@ -3,9 +3,9 @@ import express from "express";
 const mongoose = require("mongoose");
 import { useExpressServer } from "routing-controllers";
 
-import { IService } from "types/services";
-import { controllers } from "app/domain";
-import { middlewares } from "app/middlewares";
+import { IService } from "../../types/services";
+import { controllers } from "../../domain/index";
+import { middlewares } from "../../middlewares/index";
 require("dotenv").config();
 
 const { DB_URI } = process.env;

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
-import { ITodo } from "app/domain/todo/Todo.types";
-import { handleMongooseError } from "helpers/handleMongooseError";
+import { ITodo } from "todo/Todo.types";
+import { handleMongooseError } from "../helpers/handleMongooseError";
 
 const todoSchema = new Schema<ITodo>({
   id: { type: Number, required: true, unique: true },
