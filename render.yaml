@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: todo-app
+    name: to-do-list-api
     env: node
     plan: free
     buildCommand: "npm install"
