@@ -9,7 +9,7 @@
     "lib": ["ES2021"],
     "module": "CommonJS",
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./dist",
     "skipLibCheck": true,
     "sourceMap": true,

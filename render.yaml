@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: to-do-list-api
-    env: node
-    plan: free
-    buildCommand: "npm install"
-    startCommand: "npm run start"
-    autoDeploy: true
-    region: oregon

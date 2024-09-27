@@ -14,9 +14,9 @@
   },
   "homepage": "https://github.com/YevheniiZinych/to-do-list-api#readme",
   "scripts": {
-    "start": "node -r tsconfig-paths/register ./dist/index.js",
+    "start": "node dist/main.js",
     "dev": "nodemon",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
