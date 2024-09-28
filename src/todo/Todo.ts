@@ -12,9 +12,9 @@ import { ITodo } from "./Todo.types";
 import HttpError from "../helpers/HttpError";
 import { TodoModel } from "../models/todo.model";
 
-@JsonController("/todo")
+@JsonController()
 export default class Todo {
-  @Get()
+  @Get("/todo")
   async getAll(@Res() response: any) {
     const todos = await TodoModel.find();
 
@@ -25,14 +25,14 @@ export default class Todo {
     return response.status(200).json(todos);
   }
 
-  @Post("/create")
+  @Post("/todo/create")
   async create(@Body() todos: ITodo, @Res() response: any) {
     const newTodo = await TodoModel.create({ ...todos });
 
     return response.status(201).json([newTodo]);
   }
 
-  @Put("/:id")
+  @Put("/todo/:id")
   async update(
     @Param("id") id: number,
     @Body() data: {},
@@ -50,7 +50,7 @@ export default class Todo {
     response.status(200).json(result);
   }
 
-  @Delete("/:id")
+  @Delete("/todo/:id")
   async remove(@Param("id") id: number, @Res() response: any) {
     const result = TodoModel.findByIdAndDelete(id);
 
