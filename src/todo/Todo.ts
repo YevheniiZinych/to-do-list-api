@@ -12,14 +12,6 @@ import { ITodo } from "./Todo.types";
 import HttpError from "../helpers/HttpError";
 import { TodoModel } from "../models/todo.model";
 
-const storeData: ITodo[] = [
-  {
-    id: 20,
-    title: "Hello!",
-    description: "Hello",
-  },
-];
-
 @JsonController("/todo")
 export default class Todo {
   @Get()
@@ -41,16 +33,31 @@ export default class Todo {
   }
 
   @Put("/:id")
-  put(@Param("id") id: number, @Body() todos: {}) {
-    return "Updating a user...";
+  async update(
+    @Param("id") id: number,
+    @Body() data: {},
+    @Res() response: any
+  ) {
+    // if l wont see new object, need add { new: true }, otherwise l will see old contact
+    const result = TodoModel.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+
+    if (!result) {
+      throw new HttpError(404);
+    }
+
+    response.status(200).json(result);
   }
 
   @Delete("/:id")
-  remove(@Param("id") id: number) {
-    const index = storeData.findIndex((item) => item.id === id);
-    console.log(index);
-    storeData.splice(index, 1);
-    console.log(storeData);
-    return "Removing user...";
+  async remove(@Param("id") id: number, @Res() response: any) {
+    const result = TodoModel.findByIdAndDelete(id);
+
+    if (!result) {
+      throw new HttpError(404);
+    }
+
+    response.json([{ message: "Delete success", deleted_todo: result }]);
   }
 }
