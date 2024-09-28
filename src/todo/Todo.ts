@@ -39,7 +39,7 @@ export default class Todo {
     @Res() response: any
   ) {
     // if l wont see new object, need add { new: true }, otherwise l will see old contact
-    const result = TodoModel.findByIdAndUpdate(id, data, {
+    const result = await TodoModel.findByIdAndUpdate(id, data, {
       new: true,
     });
 
@@ -52,7 +52,7 @@ export default class Todo {
 
   @Delete("/todo/:id")
   async remove(@Param("id") id: number, @Res() response: any) {
-    const result = TodoModel.findByIdAndDelete(id);
+    const result = await TodoModel.findByIdAndDelete(id);
 
     if (!result) {
       throw new HttpError(404);
