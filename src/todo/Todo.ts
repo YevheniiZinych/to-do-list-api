@@ -34,7 +34,7 @@ export default class Todo {
 
   @Put("/todo/:id")
   async update(
-    @Param("id") id: number,
+    @Param("id") id: string,
     @Body() data: {},
     @Res() response: any
   ) {
