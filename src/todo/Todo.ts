@@ -9,7 +9,7 @@ import {
   Res,
 } from "routing-controllers";
 import { ITodo } from "./Todo.types";
-import HttpError from "helpers/HttpError";
+import HttpError from "../helpers/HttpError";
 import { TodoModel } from "models/todo.model";
 
 const storeData: ITodo[] = [
