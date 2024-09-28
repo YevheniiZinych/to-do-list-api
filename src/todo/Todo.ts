@@ -51,7 +51,7 @@ export default class Todo {
   }
 
   @Delete("/todo/:id")
-  async remove(@Param("id") id: number, @Res() response: any) {
+  async remove(@Param("id") id: string, @Res() response: any) {
     const result = await TodoModel.findByIdAndDelete(id);
 
     if (!result) {
