@@ -6,14 +6,16 @@ import {
   Put,
   Body,
   Param,
+  Res,
 } from "routing-controllers";
-
 import { ITodo } from "./Todo.types";
+import { HttpError } from "helpers/HttpError";
+import { TodoModel } from "models/todo.model";
 
 const storeData: ITodo[] = [
   {
     id: 20,
-    title: "Hello",
+    title: "Hello!",
     description: "Hello",
   },
 ];
@@ -21,37 +23,34 @@ const storeData: ITodo[] = [
 @JsonController("/todo")
 export default class Todo {
   @Get()
-  async getAll() {
-    return storeData;
+  async getAll(@Res() response: any) {
+    const todos = await TodoModel.find();
+
+    if (!todos) {
+      throw new HttpError(404);
+    }
+
+    return response.status(200).json(todos);
   }
 
-  @Get("/:id")
-  async getOne(@Param("id") id: number): Promise<ITodo | {}> {
-    const person = storeData.find((item) => {
-      return item.id === id;
-    });
+  @Post("/create")
+  async create(@Body() todos: ITodo, @Res() response: any) {
+    const newTodo = await TodoModel.create({ ...todos });
 
-    return person || {};
+    return response.status(201).json([newTodo]);
   }
 
-  @Post()
-  async setPerson(@Body() body: ITodo) {
-    storeData.push(body);
-
-    return true;
+  @Put("/:id")
+  put(@Param("id") id: number, @Body() todos: {}) {
+    return "Updating a user...";
   }
 
-  @Put()
-  async updateTodo(@Body() body: ITodo) {
-    storeData.push(body);
-
-    return true;
-  }
-
-  @Delete()
-  async deleTodo(@Body() body: ITodo) {
-    storeData.push(body);
-
-    return true;
+  @Delete("/:id")
+  remove(@Param("id") id: number) {
+    const index = storeData.findIndex((item) => item.id === id);
+    console.log(index);
+    storeData.splice(index, 1);
+    console.log(storeData);
+    return "Removing user...";
   }
 }
