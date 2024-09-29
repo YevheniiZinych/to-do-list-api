@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import express from "express";
-const mongoose = require("mongoose");
 import { useExpressServer } from "routing-controllers";
 
 import { IService } from "../../types/services";
 import { controllers } from "../../domain/index";
 import { middlewares } from "../../middlewares/index";
+const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const { DB_URI } = process.env;
@@ -29,6 +30,7 @@ export class Tcp implements IService {
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: false }));
+    server.use(cors());
 
     useExpressServer(server, {
       routePrefix,
