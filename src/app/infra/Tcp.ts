@@ -32,7 +32,6 @@ export class Tcp implements IService {
     server.use(express.urlencoded({ extended: false }));
     server.use(
       cors({
-        origin: "http://localhost:4040", // замінити на потрібний домен
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
       })
