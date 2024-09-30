@@ -9,8 +9,8 @@ import {
   Res,
 } from "routing-controllers";
 import { ITodo } from "./Todo.types";
-import { ApiResponse } from "helpers/ApiResponse";
-import { ApiError } from "helpers/ApiError";
+import { ApiResponse } from "../helpers/ApiResponse";
+import { ApiError } from "../helpers/ApiError";
 import HttpError from "../helpers/HttpError";
 import { TodoModel } from "../models/todo.model";
 
