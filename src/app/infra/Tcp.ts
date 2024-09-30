@@ -29,7 +29,6 @@ export class Tcp implements IService {
     const { server, routePrefix } = this;
 
     server.use(express.json());
-    server.use(express.urlencoded({ extended: false }));
 
     useExpressServer(server, {
       routePrefix,

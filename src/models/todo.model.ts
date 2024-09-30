@@ -6,6 +6,10 @@ const todoSchema = new Schema<ITodo>(
   {
     title: { type: String, required: [true, "Title is required"] },
     description: { type: String },
+    status: {
+      type: String,
+      required: [true, "Status must be ToDo | In Progress | Done"],
+    },
   },
   { versionKey: false, timestamps: true }
 );

@@ -9,9 +9,7 @@ import {
   Res,
 } from "routing-controllers";
 import { ITodo } from "./Todo.types";
-import { ApiResponse } from "../helpers/ApiResponse";
 import { ApiError } from "../helpers/ApiError";
-import HttpError from "../helpers/HttpError";
 import { TodoModel } from "../models/todo.model";
 
 @JsonController()
@@ -26,9 +24,7 @@ export default class Todo {
       });
     }
 
-    return new ApiResponse(true, 200, todos);
-
-    // return response.status(200).json(todos);
+    return response.status(200).json(todos);
   }
 
   @Post("/todo/create")
@@ -50,7 +46,9 @@ export default class Todo {
     });
 
     if (!result) {
-      throw new HttpError(404);
+      throw new ApiError(404, {
+        code: "BAD_REQUEST",
+      });
     }
 
     response.status(200).json(result);
@@ -61,9 +59,13 @@ export default class Todo {
     const result = await TodoModel.findByIdAndDelete(id);
 
     if (!result) {
-      throw new HttpError(404);
+      throw new ApiError(404, {
+        code: "TODO_NOT_FOUND",
+      });
     }
 
-    response.json([{ message: "Delete success", deleted_todo: result }]);
+    response
+      .status(200)
+      .json([{ message: "Delete success", deleted_todo: result }]);
   }
 }
