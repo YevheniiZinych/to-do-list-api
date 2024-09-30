@@ -4,19 +4,20 @@ import {
   Post,
   Delete,
   Put,
+  Res,
   Body,
   Param,
-  Res,
 } from "routing-controllers";
 import { ITodo } from "./Todo.types";
 import { ApiError } from "../helpers/ApiError";
+import { ApiResponse } from "../helpers/ApiResponse";
 import { TodoModel } from "../models/todo.model";
 
 @JsonController()
 export default class Todo {
   @Get("/todo")
-  async getAll(@Res() response: any) {
-    const todos = await TodoModel.find();
+  async getAll() {
+    const todos = await TodoModel.find().lean();
 
     if (!todos) {
       throw new ApiError(404, {
@@ -24,22 +25,23 @@ export default class Todo {
       });
     }
 
-    return response.status(200).json(todos);
+    const todosWithId = todos.map((todo: any) => ({
+      ...todo,
+      id: todo._id.toString(),
+    }));
+
+    return new ApiResponse(true, 200, todosWithId);
   }
 
   @Post("/todo/create")
-  async setTodo(@Body() todos: ITodo, @Res() response: any) {
-    const newTodo = await TodoModel.create({ ...todos });
+  async setTodo(@Body() todo: ITodo, @Res() response: any) {
+    const newTodo = await TodoModel.create({ ...todo });
 
     return response.status(201).json([newTodo]);
   }
 
   @Put("/todo/:id")
-  async updateTodo(
-    @Param("id") id: string,
-    @Body() data: {},
-    @Res() response: any
-  ) {
+  async updateTodo(@Param("id") id: string, @Body() data: {}) {
     // if l wont see new object, need add { new: true }, otherwise l will see old contact
     const result = await TodoModel.findByIdAndUpdate(id, data, {
       new: true,
@@ -51,11 +53,11 @@ export default class Todo {
       });
     }
 
-    response.status(200).json(result);
+    return new ApiResponse(true, 201, result);
   }
 
   @Delete("/todo/:id")
-  async removeTodo(@Param("id") id: string, @Res() response: any) {
+  async removeTodo(@Param("id") id: string) {
     const result = await TodoModel.findByIdAndDelete(id);
 
     if (!result) {
@@ -64,8 +66,6 @@ export default class Todo {
       });
     }
 
-    response
-      .status(200)
-      .json([{ message: "Delete success", deleted_todo: result }]);
+    return new ApiResponse(true, 200, result);
   }
 }
