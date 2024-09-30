@@ -9,6 +9,8 @@ import {
   Res,
 } from "routing-controllers";
 import { ITodo } from "./Todo.types";
+import { ApiResponse } from "helpers/ApiResponse";
+import { ApiError } from "helpers/ApiError";
 import HttpError from "../helpers/HttpError";
 import { TodoModel } from "../models/todo.model";
 
@@ -19,21 +21,25 @@ export default class Todo {
     const todos = await TodoModel.find();
 
     if (!todos) {
-      throw new HttpError(404);
+      throw new ApiError(404, {
+        code: "TODO_NOT_FOUND",
+      });
     }
 
-    return response.status(200).json(todos);
+    return new ApiResponse(true, 200, todos);
+
+    // return response.status(200).json(todos);
   }
 
   @Post("/todo/create")
-  async create(@Body() todos: ITodo, @Res() response: any) {
+  async setTodo(@Body() todos: ITodo, @Res() response: any) {
     const newTodo = await TodoModel.create({ ...todos });
 
     return response.status(201).json([newTodo]);
   }
 
   @Put("/todo/:id")
-  async update(
+  async updateTodo(
     @Param("id") id: string,
     @Body() data: {},
     @Res() response: any
@@ -51,7 +57,7 @@ export default class Todo {
   }
 
   @Delete("/todo/:id")
-  async remove(@Param("id") id: string, @Res() response: any) {
+  async removeTodo(@Param("id") id: string, @Res() response: any) {
     const result = await TodoModel.findByIdAndDelete(id);
 
     if (!result) {

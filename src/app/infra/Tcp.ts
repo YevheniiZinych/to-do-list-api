@@ -30,18 +30,12 @@ export class Tcp implements IService {
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: false }));
-    server.use(
-      cors({
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-      })
-    );
 
     useExpressServer(server, {
       routePrefix,
       controllers,
       middlewares,
-      cors: false,
+      cors: true,
       defaultErrorHandler: true,
       validation: false,
     });
