@@ -9,7 +9,7 @@ import {
 export class TodoDTO {
   @IsString()
   @IsNotEmpty({ message: "Title is required" })
-  @Length(3, 100, { message: "Title must be between 3 and 100 characters" })
+  @Length(1, 100, { message: "Title must be between 1 and 100 characters" })
   title!: string;
 
   @IsString()
