@@ -8,7 +8,8 @@ import {
   Body,
   Param,
 } from "routing-controllers";
-import { ITodo } from "./Todo.types";
+import { validateOrReject } from "class-validator";
+import { TodoDTO } from "./CreateTodo.dto";
 import { ApiError } from "../helpers/ApiError";
 import { ApiResponse } from "../helpers/ApiResponse";
 import { TodoModel } from "../models/todo.model";
@@ -34,7 +35,9 @@ export default class Todo {
   }
 
   @Post("/todo/create")
-  async setTodo(@Body() todo: ITodo, @Res() response: any) {
+  async setTodo(@Body() todo: TodoDTO, @Res() response: any) {
+    await validateOrReject(todo);
+
     const newTodo = await TodoModel.create({ ...todo });
 
     return response.status(201).json([newTodo]);
